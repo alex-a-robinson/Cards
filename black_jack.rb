@@ -1,0 +1,3 @@
+class BlackJack < Game
+
+end
