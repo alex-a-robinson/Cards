@@ -1,3 +1,5 @@
+#!usr/bin/env ruby
+
 def horizontal_bar(size=80)
   puts "-" * size
 end

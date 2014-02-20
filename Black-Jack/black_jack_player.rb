@@ -12,27 +12,21 @@ class BlackJackPlayer < Player
     end
   end
   
-  def result
+  def score
     sum = 0
     @hand.cards.each do |card|
       sum += card.value 
     end
+    sum += (@hand.aces.size > 0 && sum < 12) ? 10 : 0
     sum = -1 if sum > 21
     return sum
   end
   
-  def ace_value
-    # Adding varible ace value
-    if @hands.aces.size > 0
-      if result - 10
-    end
-  end
-  
   def state
-    result == -1 ? "bust" : result
+    score == -1 ? "bust" : score
   end
   
   def show_state
-    puts (!(state == "bust")) ? "Result: #{state}" : "You are bust"
+    puts (!(state == "bust")) ? "Score: #{state}" : "You are bust"
   end
 end

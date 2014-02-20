@@ -36,10 +36,10 @@ class Deck
   end
   
   def aces
-    aces = []
+    ace_cards = []
     @cards.each do |card|
-      aces.push(card) if card.value_name == 'A'
+      ace_cards.push(card) if card.value_name == 'A'
     end
-    return aces
+    return ace_cards
   end
 end

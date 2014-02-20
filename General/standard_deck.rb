@@ -8,7 +8,7 @@ class StandardDeck < Deck
   def initialize
     card_values = (1..12).to_a
     card_value_names = 
-      {1 => "A", 2 => 1, 3 => 3, 4 => 4,
+      {1 => "A", 2 => 2, 3 => 3, 4 => 4,
        5 => 5, 6 => 6, 7 => 7, 8 => 8,
        9 => 9, 10 => "J", 11 => "Q", 12 => "K"}
        

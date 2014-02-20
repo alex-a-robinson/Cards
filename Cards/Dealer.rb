@@ -5,7 +5,7 @@ require_relative "Hand"
 
 class Dealer < Player
   def initialize(deck, name)
-    super
+    super(name)
     
     @deck = deck
   end

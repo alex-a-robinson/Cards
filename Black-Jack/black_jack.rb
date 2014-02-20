@@ -3,9 +3,9 @@
 require_relative "black_jack_game"
 require_relative "black_jack_player"
 require_relative "black_jack_dealer"
-require_relative "../General/standard_deck"
+require_relative "black_jack_deck"
 
-deck = StandardDeck.new
+deck = BlackJackDeck.new
 dealer = BlackJackDealer.new(deck, "Steve")
 player1 = BlackJackPlayer.new("Alex")
 player2 = BlackJackPlayer.new("John")

@@ -4,11 +4,10 @@ require_relative "../Cards/Game"
 require_relative "../General/UI"
 
 class BlackJackGame < Game
-  def initialize(dealer)
-    super 
-    
+  def initialize(dealer)    
     @name = "Black Jack"
     @dealer = dealer
+    @players = []
     @rules = <<-RULES
       Each player is given two cards to start. A player can decide
       to either Stick (Keep the cards they have) or Hit (Take another
@@ -20,16 +19,24 @@ class BlackJackGame < Game
   def winner
     # FIXME: If two players have the same score only shows one
     max = @players.max_by do |player|
-      player.result
+      player.hand.cards.size
+    end
+    
+    if max.hand.cards.size >= 5
+      return Array(max)
+    end
+    
+    max = @players.max_by do |player|
+      player.score
     end
     max = Array(max)
-    return !(max[0].result == -1) ? max : []
+    return !(max[0].score == -1) ? max : []
   end
   
   def show_winners
     puts winner.size > 0 ? "The winner is: " : "Nobody won."
     winner.each do |player|
-      puts "#{player.name} who scored #{player.result}"
+      puts "#{player.name} who scored #{player.score}"
     end
   end
   
