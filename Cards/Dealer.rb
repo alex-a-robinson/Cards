@@ -5,8 +5,9 @@ require_relative "Hand"
 
 class Dealer < Player
   def initialize(deck, name)
+    super
+    
     @deck = deck
-    @name = name
   end
   
   def shuffle_deck

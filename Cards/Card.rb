@@ -12,6 +12,14 @@ class Card
     @value
   end
   
+  def value_name
+    @value_name
+  end
+  
+  def set_value(value)
+    @value = value
+  end
+  
   def suit
     @suit
   end

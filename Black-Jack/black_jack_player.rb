@@ -21,6 +21,13 @@ class BlackJackPlayer < Player
     return sum
   end
   
+  def ace_value
+    # Adding varible ace value
+    if @hands.aces.size > 0
+      if result - 10
+    end
+  end
+  
   def state
     result == -1 ? "bust" : result
   end

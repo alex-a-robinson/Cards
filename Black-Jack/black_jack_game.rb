@@ -5,8 +5,9 @@ require_relative "../General/UI"
 
 class BlackJackGame < Game
   def initialize(dealer)
+    super 
+    
     @name = "Black Jack"
-    @players = []
     @dealer = dealer
     @rules = <<-RULES
       Each player is given two cards to start. A player can decide
