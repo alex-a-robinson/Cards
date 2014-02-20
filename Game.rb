@@ -1,7 +1,11 @@
+#!usr/bin/env ruby
+
 class Game
-  @name = 'The name of the Game'
-  @rules = 'The games rules'
-  @players
+  def initialize
+    @name = "The name of the Game"
+    @rules = "The games rules"
+    @players = []
+  end
   
   def add_player(player)
     @players.push(player)

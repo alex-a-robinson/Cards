@@ -1,13 +1,33 @@
+#!usr/bin/env ruby
+
 class Player
-  def initilize(name)
+  def initialize(name)
     @name = name
+    @hand = nil
   end
   
-  def give_hand(hand)
+  def take_hand(hand)
     @hand = hand
+  end
+  
+  def hand
+    @hand
+  end
+  
+  def add_cards(cards)
+    puts "Player does not have a hand" if @hand == nil
+    @hand.add_cards(cards)
+  end
+  
+  def show_hand
+    puts "Hand: #{@hand.show}"
   end
   
   def say_name
     puts @name
+  end
+  
+  def name
+    @name
   end
 end

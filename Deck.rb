@@ -1,17 +1,37 @@
+#!usr/bin/env ruby
+
 class Deck
-  def initilize
-    @cards = []
+  def initialize(cards = [])
+    @cards = cards
   end
   
-  def add_card(card)
-    @cards.push(card)
+  def cards
+    @cards
   end
   
-  def remove_card(index)
-    @cards.slice!(index)
+  def add_cards(cards)
+    cards.each do |card|
+      @cards.push(card)  
+    end
+  end
+  
+  def take(number_of_cards = 1)
+    @cards.slice!(0, number_of_cards)
+  end
+  
+  def show
+    str = ""
+    @cards.each do |card|
+      str.concat(card.name + " ")
+    end
+    return str
+  end
+  
+  def size
+    @cards.size
   end
   
   def shuffle
-    @cards.shuffle
+    @cards.shuffle!
   end
 end
