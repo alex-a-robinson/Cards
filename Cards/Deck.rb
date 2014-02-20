@@ -24,7 +24,7 @@ class Deck
     @cards.each do |card|
       str.concat(card.name + " ")
     end
-    return str
+    return str.strip
   end
   
   def size

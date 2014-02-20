@@ -1,10 +1,12 @@
 #!usr/bin/env ruby
 
-require_relative "../Cards/Game"
+require_relative "../General/betting_game"
 require_relative "../General/UI"
 
-class BlackJackGame < Game
-  def initialize(dealer)    
+class BlackJackGame < BettingGame
+  def initialize(dealer)
+    super()
+    
     @name = "Black Jack"
     @dealer = dealer
     @players = []
@@ -16,7 +18,7 @@ class BlackJackGame < Game
     RULES
   end
   
-  def winner
+  def winners
     # FIXME: If two players have the same score only shows one
     max = @players.max_by do |player|
       player.hand.cards.size
@@ -34,8 +36,8 @@ class BlackJackGame < Game
   end
   
   def show_winners
-    puts winner.size > 0 ? "The winner is: " : "Nobody won."
-    winner.each do |player|
+    puts winners.size > 0 ? "The winner is: " : "Nobody won."
+    winners.each do |player|
       puts "#{player.name} who scored #{player.score}"
     end
   end
@@ -43,6 +45,21 @@ class BlackJackGame < Game
   def show_title
     puts @name
     horizontal_bar_big(15)
+  end
+  
+  def betting_round
+    @players.each do |player|
+      puts player.info_with_name
+      add_to_pot(player.bet)
+    end
+  end
+  
+  def give_winners_pot
+    amount = split_pot(winners.size)
+    winners.each do |player|
+      player.add_cash(amount)
+      puts "#{player.name} got $#{amount} and now has #{player.cash}"
+    end
   end
   
   def play
@@ -55,18 +72,21 @@ class BlackJackGame < Game
       player.take_hand(hand)
     end
     
+    betting_round
+    
     @players.each do |player|
       horizontal_bar(15)
-      puts "#{player.name}:"
-      player.show_hand
-      player.show_state
-      while player.decide_to == "hit"
+      puts player.info_with_name
+      while player.decide_to_hit?
         @dealer.hit(player)
-        player.show_hand
-        player.show_state
+        puts player.info
       end
     end
+    
+    betting_round
+    
     horizontal_bar_big(15)
     show_winners
+    give_winners_pot
   end
 end

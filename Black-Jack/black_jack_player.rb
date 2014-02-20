@@ -1,14 +1,14 @@
 #!usr/bin/env ruby
 
-require_relative "../Cards/Player"
+require_relative "../General/betting_player"
 
-class BlackJackPlayer < Player
-  def decide_to
+class BlackJackPlayer < BettingPlayer
+  def decide_to_hit?
     if !(state == "bust")
-      puts "Hit or Stick?"
+      print "Hit or Stick? :"
       choice = gets.chomp.downcase
       abort("Bye.") if choice == "q" || choice == "quit"
-      return (choice == "hit" || choice == "h") ? "hit" : "stick"
+      return (choice == "hit" || choice == "h") ? true : false
     end
   end
   
@@ -27,6 +27,14 @@ class BlackJackPlayer < Player
   end
   
   def show_state
-    puts (!(state == "bust")) ? "Score: #{state}" : "You are bust"
+    (!(state == "bust")) ? "Score: #{state}" : "You are bust"
+  end
+  
+  def info
+    "Hand: #{show_hand} #{show_state}"
+  end
+  
+  def info_with_name
+    "#{@name} has #{cash} #{info}"
   end
 end

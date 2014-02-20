@@ -9,13 +9,13 @@ def horizontal_bar_big(size=80)
 end
 
 def padded_horizontal_bar(size=80)
-  puts ''
+  puts ""
   horizontal_bar(size)
-  puts ''
+  puts ""
 end
 
 def padded_horizontal_bar_big(size=80)
-  puts ''
+  puts ""
   horizontal_bar_big(size)
-  puts ''
+  puts ""
 end

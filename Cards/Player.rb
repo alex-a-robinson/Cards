@@ -14,13 +14,13 @@ class Player
     @hand
   end
   
-  def add_cards(cards)
+  def take_cards(cards)
     puts "Player does not have a hand" if @hand == nil
     @hand.add_cards(cards)
   end
   
   def show_hand
-    puts "Hand: #{@hand.show}"
+    "#{@hand.show}"
   end
   
   def say_name
