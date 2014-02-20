@@ -8,16 +8,16 @@ class BettingPlayer < Player
 
     @cash = cash
   end
-  
+
   def add_cash(amount)
     @cash += amount
   end
-  
+
   def take_cash(amount)
     @cash -= amount
   end
-  
-  def get_bet
+
+  def ask_bet
     amount = 0
     print "Bet:"
     amount = gets.chomp.to_f
@@ -27,14 +27,14 @@ class BettingPlayer < Player
     end
     return amount
   end
-  
+
   def bet
-    amount = get_bet
+    amount = ask_bet
     take_cash(amount)
     return amount
   end
-  
+
   def cash
-    "$#{@cash}"
+    "$%.2f" % @cash
   end
 end

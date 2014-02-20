@@ -6,7 +6,7 @@ require_relative "../General/UI"
 class BlackJackGame < BettingGame
   def initialize(dealer)
     super()
-    
+
     @name = "Black Jack"
     @dealer = dealer
     @players = []
@@ -17,43 +17,41 @@ class BlackJackGame < BettingGame
       over.
     RULES
   end
-  
+
   def winners
     # FIXME: If two players have the same score only shows one
     max = @players.max_by do |player|
       player.hand.cards.size
     end
-    
-    if max.hand.cards.size >= 5
-      return Array(max)
-    end
-    
+
+    return Array(max) if max.hand.cards.size >= 5
+
     max = @players.max_by do |player|
       player.score
     end
     max = Array(max)
     return !(max[0].score == -1) ? max : []
   end
-  
+
   def show_winners
     puts winners.size > 0 ? "The winner is: " : "Nobody won."
     winners.each do |player|
       puts "#{player.name} who scored #{player.score}"
     end
   end
-  
+
   def show_title
     puts @name
     horizontal_bar_big(15)
   end
-  
+
   def betting_round
     @players.each do |player|
       puts player.info_with_name
       add_to_pot(player.bet)
     end
   end
-  
+
   def give_winners_pot
     amount = split_pot(winners.size)
     winners.each do |player|
@@ -61,32 +59,37 @@ class BlackJackGame < BettingGame
       puts "#{player.name} got $#{amount} and now has #{player.cash}"
     end
   end
-  
-  def play
-    
-    show_title
-  
-    @dealer.shuffle_deck
-    @players.each do |player|
-      hand = @dealer.deal_hand(2)
-      player.take_hand(hand)
+
+  def turn_of(player)
+    horizontal_bar(15)
+    puts player.info_with_name
+    while player.decide_to_hit?
+      @dealer.hit(player)
+      puts player.info
     end
-    
-    betting_round
-    
+  end
+  
+  def play_round
     @players.each do |player|
-      horizontal_bar(15)
-      puts player.info_with_name
-      while player.decide_to_hit?
-        @dealer.hit(player)
-        puts player.info
-      end
+      turn_of(player)
     end
-    
-    betting_round
-    
+  end
+  
+  def reval
     horizontal_bar_big(15)
     show_winners
     give_winners_pot
+  end
+
+  def play
+    show_title
+
+    @dealer.shuffle_deck
+    @dealer.deal(@players)
+
+    betting_round
+    play_round
+    betting_round
+    reval
   end
 end

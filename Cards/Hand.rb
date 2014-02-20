@@ -3,5 +3,4 @@
 require_relative "Deck"
 
 class Hand < Deck
-
 end

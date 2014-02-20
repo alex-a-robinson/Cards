@@ -7,7 +7,7 @@ class BlackJackDeck < StandardDeck
     super
 
     @cards.each do |card|
-      card.set_value(10) if card.value > 10
+      card.value = 10 if card.value > 10
     end
   end
 end
