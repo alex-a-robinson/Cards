@@ -1,6 +1,6 @@
 #!usr/bin/env ruby
 
-require "./Dealer"
+require_relative "../Cards/Dealer"
 
 class BlackJackDealer < Dealer
   def hit(player)

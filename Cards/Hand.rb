@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "./Deck"
+require_relative "Deck"
 
 class Hand < Deck
 

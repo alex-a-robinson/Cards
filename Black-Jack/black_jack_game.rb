@@ -1,6 +1,7 @@
 #!usr/bin/env ruby
 
-require "./Game"
+require_relative "../Cards/Game"
+require_relative "../General/UI"
 
 class BlackJackGame < Game
   def initialize(dealer)
@@ -21,7 +22,7 @@ class BlackJackGame < Game
       player.result
     end
     max = Array(max)
-    return !(max[0].result == '-1') ? max : []
+    return !(max[0].result == -1) ? max : []
   end
   
   def show_winners
@@ -31,7 +32,15 @@ class BlackJackGame < Game
     end
   end
   
+  def show_title
+    puts @name
+    horizontal_bar_big(15)
+  end
+  
   def play
+    
+    show_title
+  
     @dealer.shuffle_deck
     @players.each do |player|
       hand = @dealer.deal_hand(2)
@@ -39,7 +48,8 @@ class BlackJackGame < Game
     end
     
     @players.each do |player|
-      puts "\n#{player.name}:"
+      horizontal_bar(15)
+      puts "#{player.name}:"
       player.show_hand
       player.show_state
       while player.decide_to == "hit"
@@ -48,7 +58,7 @@ class BlackJackGame < Game
         player.show_state
       end
     end
-    
+    horizontal_bar_big(15)
     show_winners
   end
 end

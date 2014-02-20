@@ -1,7 +1,7 @@
 #!usr/bin/env ruby
 
-require "./Player"
-require "./Hand"
+require_relative "Player"
+require_relative "Hand"
 
 class Dealer < Player
   def initialize(deck, name)

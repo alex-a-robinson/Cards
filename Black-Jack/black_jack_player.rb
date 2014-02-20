@@ -1,6 +1,6 @@
 #!usr/bin/env ruby
 
-require "./Player"
+require_relative "../Cards/Player"
 
 class BlackJackPlayer < Player
   def decide_to

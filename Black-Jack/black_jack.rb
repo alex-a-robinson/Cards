@@ -1,9 +1,9 @@
 #!usr/bin/env ruby
 
-require "./black_jack_game"
-require "./black_jack_player"
-require "./black_jack_dealer"
-require "./standard_deck"
+require_relative "black_jack_game"
+require_relative "black_jack_player"
+require_relative "black_jack_dealer"
+require_relative "../General/standard_deck"
 
 deck = StandardDeck.new
 dealer = BlackJackDealer.new(deck, "Steve")

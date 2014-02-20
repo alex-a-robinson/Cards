@@ -1,7 +1,7 @@
 #!usr/bin/env ruby
 
-require "./Deck"
-require "./Card"
+require_relative "../Cards/Deck"
+require_relative "../Cards/Card"
 
 CARD_VALUES = (1..12).to_a
 
