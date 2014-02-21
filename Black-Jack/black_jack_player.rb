@@ -20,7 +20,6 @@ class BlackJackPlayer < BettingPlayer
     "double" if choice.match(/^d\w+/)
     "split" if choice.match(/^sp\w+/)
     "surrender" if choice.match(/^su\w+/)
-    abort("Bye.") if choice.match(/^(ex|qu)it/)
   end
   
   def score
@@ -37,5 +36,9 @@ class BlackJackPlayer < BettingPlayer
 
   def info_with_name
     "#{@name} has #{cash} #{info}"
+  end
+  
+  def join_table(table)
+    table.players.push(self)
   end
 end

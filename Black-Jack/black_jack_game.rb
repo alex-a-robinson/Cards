@@ -48,7 +48,7 @@ class BlackJackGame < BettingGame
   def betting_round
     @players.each do |player|
       puts player.info_with_name
-      add_to_pot(player.bet)
+      @pots[player].value += player.bet
     end
   end
 
@@ -68,14 +68,13 @@ class BlackJackGame < BettingGame
     when "stand"
       # 
     when "hit"
-      #
+      
     when "double"
       #
     when "split"
       #
     when "surrender"
       #
-    end
     
     while player.action == "hit"
       @dealer.hit(player)

@@ -1,6 +1,7 @@
 #!usr/bin/env ruby
 
 require_relative "../Cards/Player"
+require_relative "bet"
 
 class BettingPlayer < Player
   def initialize(name, cash)
@@ -11,10 +12,6 @@ class BettingPlayer < Player
 
   def add_cash(amount)
     @cash += amount
-  end
-
-  def take_cash(amount)
-    @cash -= amount
   end
 
   def ask_bet
@@ -30,8 +27,9 @@ class BettingPlayer < Player
 
   def bet
     amount = ask_bet
-    take_cash(amount)
-    return amount
+    @cash -= amount
+    bet = new Bet(amount)
+    return bet
   end
 
   def cash
