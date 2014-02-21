@@ -32,12 +32,4 @@ class Deck
   def shuffle
     @cards.shuffle!
   end
-
-  def aces
-    ace_cards = []
-    @cards.each do |card|
-      ace_cards.push(card) if card.value_name == 'A'
-    end
-    return ace_cards
-  end
 end

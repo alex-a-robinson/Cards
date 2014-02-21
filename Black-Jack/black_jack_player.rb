@@ -11,27 +11,28 @@ class BlackJackPlayer < BettingPlayer
       return (choice == "hit" || choice == "h") ? true : false
     end
   end
-
+  
+  def action
+    print "Stand, hit, double, split or surrender? : "
+    choice = gets.chomp.downcase
+    "stand" if choice.match(/^st\w+/)
+    "hit" if choice.match(/^h\w+/)
+    "double" if choice.match(/^d\w+/)
+    "split" if choice.match(/^sp\w+/)
+    "surrender" if choice.match(/^su\w+/)
+    abort("Bye.") if choice.match(/^(ex|qu)it/)
+  end
+  
   def score
-    sum = 0
-    @hand.cards.each do |card|
-      sum += card.value
-    end
-    sum += (@hand.aces.size > 0 && sum < 12) ? 10 : 0
-    sum = -1 if sum > 21
-    return sum
+    @hand.score
   end
-
-  def state
-    score == -1 ? "bust" : score
-  end
-
-  def show_state
-    (!(state == "bust")) ? "Score: #{state}" : "You are bust"
+  
+  def rank
+    @hand.rank
   end
 
   def info
-    "Hand: #{show_hand} #{show_state}"
+    "#{show_hand} (#{@hand.rank})"
   end
 
   def info_with_name

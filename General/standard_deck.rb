@@ -3,7 +3,7 @@
 require_relative "../Cards/Deck"
 require_relative "../Cards/Card"
 
-class StandardDeck < Deck
+class StandardDeck < Deck  
   def initialize
     card_values = (1..12).to_a
     card_value_names =

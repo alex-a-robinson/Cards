@@ -63,7 +63,21 @@ class BlackJackGame < BettingGame
   def turn_of(player)
     horizontal_bar(15)
     puts player.info_with_name
-    while player.decide_to_hit?
+    
+    case player.action
+    when "stand"
+      # 
+    when "hit"
+      #
+    when "double"
+      #
+    when "split"
+      #
+    when "surrender"
+      #
+    end
+    
+    while player.action == "hit"
       @dealer.hit(player)
       puts player.info
     end
