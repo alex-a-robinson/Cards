@@ -1,5 +1,7 @@
 #!usr/bin/env ruby
 
+require_relative "bet"
+
 class Pot < Bet
   def add_bet(bet)
     value += bet.value

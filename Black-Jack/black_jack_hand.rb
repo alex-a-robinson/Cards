@@ -3,6 +3,12 @@
 require_relative "black_jack_deck"
 
 class BlackJackHand < Hand
+  def initalise
+    super
+    
+    @soft = false
+  end
+  
   def aces
     ace_cards = []
     @cards.each do |card|
@@ -25,13 +31,21 @@ class BlackJackHand < Hand
     @cards.each do |card|
       sum += card.value
     end
-    sum += (@hand.aces.size > 0 && sum < 12) ? 10 : 0
+    if aces.size > 0 && sum < 12
+      @soft = false
+      sum += 10
+    end
+    return sum
+  end
+  
+  def soft?
+    @soft
   end
   
   def rank
     if score > 21
       "bust"
-    elsif aces.size == 1 && faces.size == 1
+    elsif size == 2 && aces.size == 1 && faces.size == 1
       "blackjack"
     elsif size >= 5
       "five-card charlie"

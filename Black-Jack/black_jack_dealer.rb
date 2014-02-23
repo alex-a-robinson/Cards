@@ -5,6 +5,7 @@ require_relative "black_jack_player"
 require_relative "black_jack_hand"
 
 class BlackJackDealer < Dealer
+  
   def hit(player)
     card = @deck.take
     player.take_cards(card)
@@ -21,5 +22,13 @@ class BlackJackDealer < Dealer
     warn "Too few cards" if @deck.size < 2
     cards = @deck.take(2)
     BlackJackHand.new(cards)
+  end
+  
+  def hit?
+    if (@hand.score < 17) || (@hand.score <= 17 && @hand.soft?)
+      true
+    else
+      false
+    end
   end
 end

@@ -4,6 +4,8 @@ require_relative "../Cards/Player"
 require_relative "bet"
 
 class BettingPlayer < Player
+  attr_accessor :cash
+  
   def initialize(name, cash)
     super(name)
 
@@ -28,11 +30,10 @@ class BettingPlayer < Player
   def bet
     amount = ask_bet
     @cash -= amount
-    bet = new Bet(amount)
-    return bet
+    return Bet.new(amount)
   end
 
-  def cash
+  def show_cash
     "$%.2f" % @cash
   end
 end

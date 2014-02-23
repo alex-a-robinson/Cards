@@ -3,23 +3,24 @@
 require_relative "../General/betting_player"
 
 class BlackJackPlayer < BettingPlayer
-  def decide_to_hit?
-    unless state == "bust"
-      print "Hit or Stick? :"
-      choice = gets.chomp.downcase
-      abort("Bye.") if choice == "q" || choice == "quit"
-      return (choice == "hit" || choice == "h") ? true : false
-    end
-  end
   
   def action
     print "Stand, hit, double, split or surrender? : "
+    while true
+      choice = gets.chomp.downcase
+      return "stand" if /^st\w*/.match(choice)
+      return "hit" if /^h\w*/.match(choice)
+      return "double" if /^d\w*/.match(choice)
+      return "split" if /^sp\w*/.match(choice)
+      return "surrender" if /^su\w*/.match(choice)
+      print "Please type one of stand, hit, double, split or surrender: "
+    end
+  end
+  
+  def hit?
+    print "Hit again? : "
     choice = gets.chomp.downcase
-    "stand" if choice.match(/^st\w+/)
-    "hit" if choice.match(/^h\w+/)
-    "double" if choice.match(/^d\w+/)
-    "split" if choice.match(/^sp\w+/)
-    "surrender" if choice.match(/^su\w+/)
+    choice.match(/^y\w*/) ? true : false
   end
   
   def score
@@ -31,14 +32,22 @@ class BlackJackPlayer < BettingPlayer
   end
 
   def info
-    "#{show_hand} (#{@hand.rank})"
+    "#{@hand.show} (#{@hand.rank})"
   end
 
   def info_with_name
-    "#{@name} has #{cash} #{info}"
+    if @hand != nil
+      "#{@name} has #{show_cash} #{info}"
+    else
+      "#{@name} has #{show_cash}"
+    end
   end
   
   def join_table(table)
     table.players.push(self)
+  end
+  
+  def bust?
+    rank == "bust" ? true : false
   end
 end
