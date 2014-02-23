@@ -42,6 +42,13 @@ class BlackJackHand < Hand
     @soft
   end
   
+  def visible_ace?
+    visible_cards.each do |card|
+      return true if card.ace?
+    end
+    return false
+  end
+  
   def rank
     if score > 21
       "bust"

@@ -12,6 +12,7 @@ class BlackJackGame < BettingGame
     @dealer = dealer
     @players = []
     @pots = {}
+    @insurence_pots = {}
     @rules = <<-RULES
       Each player is given two cards to start. A player can decide
       to either Stick (Keep the cards they have) or Hit (Take another
@@ -22,7 +23,7 @@ class BlackJackGame < BettingGame
 
   def show_title
     puts @name
-    horizontal_bar_big(15)
+    horizontal_bar_big(40)
   end
 
   def betting_round
@@ -34,18 +35,22 @@ class BlackJackGame < BettingGame
         @pots[player] = player.bet
       end
     end
+    horizontal_bar(40)
   end
-
-  def give_winners_pot
-    amount = split_pot(winners.size)
-    winners.each do |player|
-      player.add_cash(amount)
-      puts "#{player.name} got $#{amount} and now has #{player.show_cash}"
+  
+  def insurence_bet
+    horizontal_bar_big(40)
+    puts "Insurence Bet"
+    horizontal_bar(40)
+    @players.each do |player|
+      puts player.info_with_name
+      @insurence_pots[player] = player.bet
     end
+    horizontal_bar_big(40)
   end
 
   def turn_of(player)
-    horizontal_bar(15)
+    horizontal_bar(40)
     puts player.info_with_name
     
     action = player.action
@@ -59,18 +64,18 @@ class BlackJackGame < BettingGame
       loop do
         @dealer.hit(player)
         puts player.info
-        break if !player.hit? || player.bust?
+        break if player.bust? || !player.hit?
       end
     when "double"
       amount = @pots[player].value
       if player.cash >= amount
         @pots[player].value += amount
+        @dealer.hit(player)
+        puts player.info
       else
         # REVIEW: Player should be able to rechoose what to do
         puts "You don't have enough cash (need $#{amount} have #{player.show_cash})."
       end
-      @dealer.hit(player)
-      puts player.info
     when "split"
       #
     when "surrender"
@@ -96,6 +101,7 @@ class BlackJackGame < BettingGame
     @players.each do |player|
       turn_of(player)
     end
+    horizontal_bar_big(40)
     turn_of_dealer
   end
   
@@ -103,7 +109,7 @@ class BlackJackGame < BettingGame
     amount = @pots[player].value
     @pots.delete(player)
     player.cash += amount
-    puts "Push - recived $#{amount}"
+    puts "#{player.name} Push - recived $#{amount}"
   end
   
   def blackjack_payout(player)
@@ -111,29 +117,35 @@ class BlackJackGame < BettingGame
     player.cash += bet_value
     player.cash += bet_value * 3.0/2.0
     @pots.delete(player)
-    puts "Blackjack - recived $#{amount}"
+    puts "#{player.name} Blackjack - recived $#{amount}"
   end
   
   def payout(player)
     amount = @pots[player].value
     @pots.delete(player)
     player.cash += amount
-    puts "Won - recived $#{amount}"
+    puts "#{player.name} Won - recived $#{amount}"
   end
   
-  def reval
-    horizontal_bar_big(15)
+  def reval # resolve_bets
+    horizontal_bar_big(40)
     @players.each do |player|
       if player.hand.rank == @dealer.hand.rank
         push(player)
       elsif player.hand.rank == "blackjack"
         blackjack_payout(player)
-      elsif player.hand.rank != "bust" && (@dealer.hand.rank == "bust" || player.hand.rank >= @dealer.hand.rank)
+      elsif player.hand.rank != "bust" && @dealer.hand.rank != "blackjack" && (@dealer.hand.rank == "bust" || player.hand.rank >= @dealer.hand.rank)
         payout(player)
       else
         # REVIEW: House should really take the money
-        puts "You lost $#{@pots[player].value} (You: #{player.hand.rank}, Dealer: #{@dealer.hand.rank})"
+        puts "#{player.name} lost $#{@pots[player].value} (You: #{player.hand.rank}, Dealer: #{@dealer.hand.rank})"
         @pots.delete(player)
+      end
+      
+      # Resolve insurence bets
+      if @dealer.hand.rank == "blackjack"
+        puts "Insurence bets"
+        payout(player)
       end
     end
   end
@@ -146,9 +158,11 @@ class BlackJackGame < BettingGame
     
     betting_round
     @dealer.deal(@players + [@dealer])
+    @dealer.hand.cards[0].turn_over
+    puts "Dealers Hand: #{@dealer.hand.show_hidden}"
     
-    if @dealer.hand.rank == "blackjack"
-      # Insurence bet
+    if @dealer.hand.visible_ace?
+      insurence_bet
     end
     
     betting_round
