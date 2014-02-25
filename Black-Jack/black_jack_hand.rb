@@ -49,6 +49,18 @@ class BlackJackHand < Hand
     return false
   end
   
+  def pair?
+    # NOTE: This is a pair by value i.e. 2♠ and 2♥
+    #       make a pair as they both have value 2
+    # NOTE: Even if there are three cards of the 
+    #       same value a pair will still be true
+    card_values = {}
+    @cards.each do |card|
+      card_values[card.value] == nil ? card_values[card.value] = 1 : (return true)
+    end
+    return false
+  end
+  
   def rank
     if score > 21
       "bust"

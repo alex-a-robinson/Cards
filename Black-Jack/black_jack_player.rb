@@ -17,6 +17,17 @@ class BlackJackPlayer < BettingPlayer
     end
   end
   
+  def split_action
+    print "Stand, hit or double? : "
+    while true
+      choice = gets.chomp.downcase
+      return "stand" if /^st\w*/.match(choice)
+      return "hit" if /^h\w*/.match(choice)
+      return "double" if /^d\w*/.match(choice)
+      print "Please type one of stand, hit, double, split or surrender: "
+    end
+  end
+  
   def hit?
     print "Hit again? : "
     choice = gets.chomp.downcase

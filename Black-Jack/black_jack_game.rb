@@ -52,11 +52,15 @@ class BlackJackGame < BettingGame
   def turn_of(player)
     horizontal_bar(40)
     puts player.info_with_name
-    
-    action = player.action
-    
-    puts action
-    
+        
+    err = do_action(player, player.action)
+    while err
+      puts err
+      err = do_action(player, player.action)
+    end
+  end
+  
+  def do_action(player, action)
     case action
     when "stand"
       # Do nothing
@@ -73,19 +77,31 @@ class BlackJackGame < BettingGame
         @dealer.hit(player)
         puts player.info
       else
-        # REVIEW: Player should be able to rechoose what to do
-        puts "You don't have enough cash (need $#{amount} have #{player.show_cash})."
+        return "You don't have enough cash (need $#{amount} have #{player.show_cash})."
       end
     when "split"
-      #
+      if player.hand.pair?
+        # REVIEW: Player needs to have a split_hands hand
+        new_hand_1 = BlackJackHand.new(player.hand.cards[0])
+        new_hand_2 = BlackJackHand.new(player.hand.cards[1])
+        split_hands = [new_hand_1, new_hand_2]
+        
+        split_hands.each do |hand|
+          player.hand = hand
+          do_action(player.split_action)
+        end
+      else
+        return "You can only double with a pair."
+      end
     when "surrender"
+      # REVIEW: House should really take half of the money
       amount = @pots[player].value
       player.cash += amount / 2.0
-      # house.cash += amount / 2
       @pots.delete(player)
       @players.delete(player)
       puts "Surrendered, recived $#{amount / 2.0} back of $#{amount} bet"
     end
+    return nil
   end
   
   def turn_of_dealer
@@ -127,7 +143,7 @@ class BlackJackGame < BettingGame
     puts "#{player.name} Won - recived $#{amount}"
   end
   
-  def reval # resolve_bets
+  def resolve_bets
     horizontal_bar_big(40)
     @players.each do |player|
       if player.hand.rank == @dealer.hand.rank
@@ -167,6 +183,6 @@ class BlackJackGame < BettingGame
     
     betting_round
     play_round
-    reval
+    resolve_bets
   end
 end

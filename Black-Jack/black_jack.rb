@@ -10,8 +10,6 @@ deck = BlackJackDeck.new
 dealer = BlackJackDealer.new(deck, "Steve")
 
 player1 = BlackJackPlayer.new("Alex", 50)
-player2 = BlackJackPlayer.new("Sam", 5000)
-
 
 game = BlackJackGame.new(dealer)
 
@@ -20,7 +18,5 @@ game = BlackJackGame.new(dealer)
 # player1.join_table(table)
 
 game.add_player(player1)
-game.add_player(player2)
-
 
 game.play
